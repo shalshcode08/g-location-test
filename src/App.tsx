@@ -1,63 +1,19 @@
-import { useState } from "react";
-import axios from "axios";
-import CountryCity from "./components/CountryCity";
-import Locality from "./components/Locality";
+import { BrowserRouter, Route, Routes } from "react-router";
+import { AppRoutes } from "./Routes";
+
+import Home from "./App/Home";
+import V1App from "./App/V1";
+import V2App from "./App/V2";
 
 function App() {
-  const [countryCode, setCountryCode] = useState("");
-  const [location, setLocation] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-
-  const handleSubmit = async () => {
-    if (!countryCode || !location) {
-      setMessage("Please select country and location");
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setMessage("");
-
-      await axios.post("http://localhost:4000/api/location", {
-        country: countryCode,
-        location,
-      });
-
-      setMessage("✅ Location saved successfully");
-    } catch (error: any) {
-      setMessage(error?.response?.data?.message || "❌ Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div className="flex items-center justify-center h-screen flex-col gap-4">
-      <h1 className="text-md font-bold">
-        this is a project to understand google places api
-      </h1>
-
-      <CountryCity
-        countryCode={countryCode}
-        onCountryChange={(code) => {
-          setCountryCode(code);
-          setLocation(""); // reset locality
-        }}
-      />
-
-      <Locality countryCode={countryCode} onSelect={setLocation} />
-
-      <button
-        onClick={handleSubmit}
-        disabled={loading}
-        className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
-      >
-        {loading ? "Saving..." : "Submit"}
-      </button>
-
-      {message && <div className="text-sm text-gray-700">{message}</div>}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path={AppRoutes.Home} element={<Home />} />
+        <Route path={AppRoutes.V1} element={<V1App />} />
+        <Route path={AppRoutes.V2} element={<V2App />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
