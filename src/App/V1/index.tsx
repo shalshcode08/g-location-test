@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import CountryCity from "../../components/CountryCity";
 import Locality from "../../components/Locality";
+import { Button } from "@mui/material";
 
 const V1App = () => {
   const [countryCode, setCountryCode] = useState("");
@@ -51,13 +52,19 @@ const V1App = () => {
 
       <Locality countryCode={countryCode} onSelect={setLocation} />
 
-      <button
+      <Button
         onClick={handleSubmit}
-        disabled={loading}
-        className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
+        variant={"outlined"}
+        size="medium"
+        sx={{
+          border: "1px solid black",
+          height: "40px",
+          backgroundColor: "#232323",
+          color: "white",
+        }}
       >
-        {loading ? "Saving..." : "Submit"}
-      </button>
+        {loading ? "Submitting..." : "Submit"}
+      </Button>
 
       {message && <div className="text-sm text-gray-700">{message}</div>}
     </div>
