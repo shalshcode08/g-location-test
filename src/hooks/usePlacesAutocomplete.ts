@@ -36,12 +36,13 @@ export const usePlacesAutocomplete = (countryCode?: string) => {
         service.getPlacePredictions(
           {
             input,
-            types: ["(regions)"],
+            // types: ["(cities)"],
             componentRestrictions: countryCode
               ? { country: countryCode }
               : undefined,
           },
           (predictions: any[]) => {
+            console.log(predictions);
             setOptions(
               predictions?.map((p) => ({
                 description: p.description,
